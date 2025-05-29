@@ -14,6 +14,17 @@
         </button>
     </div>
 
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="lightbox">
+        <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+        <button class="lightbox-prev" aria-label="Previous image"><i class="fas fa-chevron-left"></i></button>
+        <button class="lightbox-next" aria-label="Next image"><i class="fas fa-chevron-right"></i></button>
+        <div class="lightbox-content">
+            <img src="" alt="" id="lightbox-image">
+            <div class="lightbox-caption"></div>
+        </div>
+    </div>
+
     <main class="container">
         <h1>Au Revoir</h1>
         
@@ -24,27 +35,27 @@
 
         <section class="interests">
             <div class="interests-grid">
-                <div class="interest-item">
+                <div class="interest-item" data-title="Lightning">
                     <img src="images/lightning.jpg" alt="Lightning" class="interest-image">
                     <h3>Lightning</h3>
                 </div>
-                <div class="interest-item">
+                <div class="interest-item" data-title="Birbs">
                     <img src="images/birbs.jpg" alt="Birbs" class="interest-image">
                     <h3>Birbs</h3>
                 </div>
-                <div class="interest-item">
+                <div class="interest-item" data-title="Homemaking Birbs">
                     <img src="images/homemaking-birbs.jpg" alt="Homemaking Birbs" class="interest-image">
                     <h3>Homemaking Birbs</h3>
                 </div>
-                <div class="interest-item">
+                <div class="interest-item" data-title="Metal Birbs">
                     <img src="images/metal-birbs.jpg" alt="Metal Birbs" class="interest-image">
                     <h3>Metal Birbs</h3>
                 </div>
-                <div class="interest-item">
+                <div class="interest-item" data-title="Local Fireworks">
                     <img src="images/local-fireworks.jpg" alt="Local Fireworks" class="interest-image">
                     <h3>Local Fireworks</h3>
                 </div>
-                <div class="interest-item">
+                <div class="interest-item" data-title="Japanese Fireworks">
                     <img src="images/japanese-fireworks.jpg" alt="Japanese Fireworks" class="interest-image">
                     <h3>Japanese Fireworks</h3>
                 </div>
@@ -63,5 +74,6 @@
     </main>
 
     <script src="js/theme.js"></script>
+    <script src="js/lightbox.js"></script>
 </body>
-</html> 
+</html>
