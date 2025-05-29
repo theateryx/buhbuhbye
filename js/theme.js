@@ -1,39 +1,79 @@
-// Theme toggle functionality
 document.addEventListener('DOMContentLoaded', () => {
-    const themeToggle = document.getElementById('themeToggle');
-    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
-    
-    // Check for saved theme preference or use system preference
-    const currentTheme = localStorage.getItem('theme') || 
-        (prefersDarkScheme.matches ? 'dark' : 'light');
-    
-    // Apply the initial theme
-    document.documentElement.setAttribute('data-theme', currentTheme);
-    updateThemeIcon(currentTheme);
-    
-    // Toggle theme when button is clicked
-    themeToggle.addEventListener('click', () => {
-        const newTheme = document.documentElement.getAttribute('data-theme') === 'dark' 
-            ? 'light' 
-            : 'dark';
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-image');
+    const lightboxCaption = document.querySelector('.lightbox-caption');
+    const closeBtn = document.querySelector('.lightbox-close');
+    const prevBtn = document.querySelector('.lightbox-prev');
+    const nextBtn = document.querySelector('.lightbox-next');
+    const interestItems = document.querySelectorAll('.interest-item');
+    let currentIndex = 0;
+
+    // Convert NodeList to Array for easier manipulation
+    const items = Array.from(interestItems);
+
+    // Open lightbox
+    function openLightbox(index) {
+        const img = items[index].querySelector('img');
+        const title = items[index].dataset.title;
         
-        document.documentElement.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
-        updateThemeIcon(newTheme);
-    });
-    
-    // Update the theme icon based on current theme
-    function updateThemeIcon(theme) {
-        const icon = themeToggle.querySelector('i');
-        icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        lightboxImg.src = img.src;
+        lightboxImg.alt = img.alt;
+        lightboxCaption.textContent = title;
+        currentIndex = index;
+        
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden'; // Prevent scrolling
     }
-    
-    // Listen for system theme changes
-    prefersDarkScheme.addEventListener('change', (e) => {
-        if (!localStorage.getItem('theme')) {
-            const newTheme = e.matches ? 'dark' : 'light';
-            document.documentElement.setAttribute('data-theme', newTheme);
-            updateThemeIcon(newTheme);
+
+    // Close lightbox
+    function closeLightbox() {
+        lightbox.classList.remove('active');
+        document.body.style.overflow = ''; // Restore scrolling
+    }
+
+    // Navigate to previous image
+    function showPrevious() {
+        currentIndex = (currentIndex - 1 + items.length) % items.length;
+        openLightbox(currentIndex);
+    }
+
+    // Navigate to next image
+    function showNext() {
+        currentIndex = (currentIndex + 1) % items.length;
+        openLightbox(currentIndex);
+    }
+
+    // Add click listeners to all interest items
+    items.forEach((item, index) => {
+        item.addEventListener('click', () => openLightbox(index));
+    });
+
+    // Add event listeners for controls
+    closeBtn.addEventListener('click', closeLightbox);
+    prevBtn.addEventListener('click', showPrevious);
+    nextBtn.addEventListener('click', showNext);
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (!lightbox.classList.contains('active')) return;
+        
+        switch(e.key) {
+            case 'Escape':
+                closeLightbox();
+                break;
+            case 'ArrowLeft':
+                showPrevious();
+                break;
+            case 'ArrowRight':
+                showNext();
+                break;
         }
     });
-}); 
+
+    // Close lightbox when clicking outside the image
+    lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) {
+            closeLightbox();
+        }
+    });
+});
